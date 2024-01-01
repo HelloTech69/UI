@@ -27,14 +27,23 @@ interface NavProps extends FlexProps {
 }
 
 interface Props {
+  href: string;
   children: React.ReactNode;
 }
 
-const Links = ["Get Started", "About Us", "Features", "Contact Us"];
+interface NavLinkProps {
+  name: string;
+  href: string;
+}
 
-const NavLink = (props: Props) => {
-  const { children } = props;
+const Links: Array<NavLinkProps> = [
+  { name: "Get Started", href: "#getstarted" },
+  { name: "About Us", href: "#aboutus" },
+  { name: "Features", href: "#features" },
+  { name: "Contact Us", href: "#contactus" },
+];
 
+const NavLink = ({ href, children }: Props) => {
   return (
     <Box
       as="a"
@@ -45,7 +54,7 @@ const NavLink = (props: Props) => {
         textDecoration: "none",
         bg: useColorModeValue("gray.200", "gray.700"),
       }}
-      href={"#"}
+      href={href}
     >
       {children}
     </Box>
@@ -60,6 +69,8 @@ const Navbar = ({ onOpen, ...rest }: NavProps) => {
       ml={isAuthenticated ? { base: 0, md: 60 } : 0}
       px={{ base: 4, md: 4 }}
       height="20"
+      position="sticky"
+      top={0}
       alignItems="center"
       bg={useColorModeValue("white", "gray.900")}
       borderBottomWidth="1px"
@@ -91,7 +102,9 @@ const Navbar = ({ onOpen, ...rest }: NavProps) => {
           display={isAuthenticated ? "none" : { base: "none", md: "flex" }}
         >
           {Links.map((link) => (
-            <NavLink key={link}>{link}</NavLink>
+            <NavLink key={link.name} href={link.href}>
+              {link.name}
+            </NavLink>
           ))}
         </HStack>
       </Flex>

@@ -1,5 +1,3 @@
-"use client";
-
 import { BsDiscord, BsGithub, BsPerson } from "react-icons/bs";
 import {
   MdEmail,
@@ -143,7 +141,7 @@ export default function Contact() {
                           <Input type="text" size="md" />
                         </InputGroup>
                       </FormControl>
-                      <FormControl id="name">
+                      <FormControl id="email">
                         <FormLabel>Mail</FormLabel>
                         <InputGroup borderColor="#E0E1E7">
                           <InputLeftElement pointerEvents="none">
@@ -152,7 +150,7 @@ export default function Contact() {
                           <Input type="text" size="md" />
                         </InputGroup>
                       </FormControl>
-                      <FormControl id="name">
+                      <FormControl id="message">
                         <FormLabel>Message</FormLabel>
                         <Textarea
                           borderColor="gray.300"

@@ -3,9 +3,9 @@ import { Box } from "@chakra-ui/react";
 
 import { useHead } from "~features/title/TitleContext";
 
+import Aboutus from "./aboutus/Aboutus";
 import Cards from "./cards/Cards";
 import Contact from "./contact/Contact";
-import Features from "./features/Features";
 import Hero from "./hero/Hero";
 
 const Landing = () => {
@@ -19,10 +19,18 @@ const Landing = () => {
 
   return (
     <Box width="100%">
-      <Hero />
-      <Features />
-      <Cards />
-      <Contact />
+      <section id="getstarted">
+        <Hero />
+      </section>
+      <section id="aboutus">
+        <Aboutus />
+      </section>
+      <section id="features">
+        <Cards />
+      </section>
+      <section id="contactus">
+        <Contact />
+      </section>
     </Box>
   );
 };

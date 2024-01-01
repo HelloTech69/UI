@@ -7,8 +7,8 @@ import {
   CloseButton,
   Flex,
   FlexProps,
-  Stack,
   Icon,
+  Stack,
   useColorModeValue,
 } from "@chakra-ui/react";
 
@@ -18,11 +18,13 @@ import { useAuth } from "~features/auth";
 
 interface LinkItemProps {
   name: string;
+  href: string;
   icon: IconType;
 }
 
 interface NavItemProps extends FlexProps {
   icon: IconType;
+  href: string;
   children: React.ReactNode;
 }
 
@@ -31,44 +33,62 @@ interface SidebarProps extends BoxProps {
 }
 
 interface Props {
+  href: string;
   children: React.ReactNode;
 }
 
-const Links = ["Get Started", "About Us", "Features", "Contact Us"];
+interface NavLinkProps {
+  name: string;
+  href: string;
+}
 
-const NavLink = (props: Props) => {
-  const { children } = props;
+const Links: Array<NavLinkProps> = [
+  { name: "Get Started", href: "#getstarted" },
+  { name: "About Us", href: "#aboutus" },
+  { name: "Features", href: "#features" },
+  { name: "Contact Us", href: "#contactus" },
+];
 
+const NavLink = ({ href, children, ...rest }: Props) => {
   return (
     <Box
       as="a"
-      px={2}
-      py={1}
-      rounded={"md"}
-      _hover={{
-        textDecoration: "none",
-        bg: useColorModeValue("gray.200", "gray.700"),
-      }}
-      href={"#"}
+      href={href}
+      style={{ textDecoration: "none" }}
+      _focus={{ boxShadow: "none" }}
     >
-      {children}
+      <Flex
+        align="center"
+        p="4"
+        mx="4"
+        borderRadius="lg"
+        role="group"
+        cursor="pointer"
+        _hover={{
+          bg: "cyan.400",
+          color: "white",
+        }}
+        {...rest}
+      >
+        {children}
+      </Flex>
     </Box>
   );
 };
 
 const LinkItems: Array<LinkItemProps> = [
-  { name: "Dashboard", icon: RxDashboard },
-  { name: "Trending", icon: FiTrendingUp },
-  { name: "Explore", icon: FiCompass },
-  { name: "Favourites", icon: FiStar },
-  { name: "Settings", icon: FiSettings },
+  { name: "Dashboard", href: "/dashboard", icon: RxDashboard },
+  { name: "Trending", href: "/trending", icon: FiTrendingUp },
+  { name: "Explore", href: "/explore", icon: FiCompass },
+  { name: "Favourites", href: "/favourites", icon: FiStar },
+  { name: "Settings", href: "/settings", icon: FiSettings },
 ];
 
-const NavItem = ({ icon, children, ...rest }: NavItemProps) => {
+const NavItem = ({ href, icon, children, ...rest }: NavItemProps) => {
   return (
     <Box
       as="a"
-      href="#"
+      href={href}
       style={{ textDecoration: "none" }}
       _focus={{ boxShadow: "none" }}
     >
@@ -119,19 +139,23 @@ const Sidebar = ({ onClose, ...rest }: SidebarProps) => {
         <Logo destination={isAuthenticated ? "/dashboard" : "/"} />
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
-      {isAuthenticated
-        ? LinkItems.map((link) => (
-            <NavItem key={link.name} icon={link.icon}>
-              {link.name}
-            </NavItem>
-          ))
-        : <Box pb={4} display={{ md: 'none' }} mx="8">
-        <Stack as={'nav'} spacing={4}>
-          {Links.map((link) => (
-            <NavLink key={link}>{link}</NavLink>
-          ))}
-        </Stack>
-      </Box>}
+      {isAuthenticated ? (
+        LinkItems.map((link) => (
+          <NavItem key={link.name} icon={link.icon} href={link.href}>
+            {link.name}
+          </NavItem>
+        ))
+      ) : (
+        <Box pb={4} display={{ md: "none" }} mx="8">
+          <Stack as={"nav"} spacing={4}>
+            {Links.map((link) => (
+              <NavLink key={link.name} href={link.href}>
+                {link.name}
+              </NavLink>
+            ))}
+          </Stack>
+        </Box>
+      )}
     </Box>
   );
 };
