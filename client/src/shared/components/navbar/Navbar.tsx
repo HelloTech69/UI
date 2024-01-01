@@ -1,10 +1,11 @@
-import { CloseIcon, HamburgerIcon } from "@chakra-ui/icons";
+import { FiBell, FiMenu } from "react-icons/fi";
 import {
   Avatar,
   Box,
   Button,
   Center,
   Flex,
+  FlexProps,
   HStack,
   IconButton,
   Menu,
@@ -15,18 +16,21 @@ import {
   Portal,
   Stack,
   useColorModeValue,
-  useDisclosure,
 } from "@chakra-ui/react";
 
 import { Logo } from "~shared/components/logo/Logo";
 
 import { useAuth } from "~features/auth";
 
+interface NavProps extends FlexProps {
+  onOpen: () => void;
+}
+
 interface Props {
   children: React.ReactNode;
 }
 
-const Links = ["Dashboard", "Projects", "Team"];
+const Links = ["Get Started", "About Us", "Features", "Contact Us"];
 
 const NavLink = (props: Props) => {
   const { children } = props;
@@ -48,32 +52,59 @@ const NavLink = (props: Props) => {
   );
 };
 
-export default function Navbar() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const { isAuthenticated, user, googleAuth, googleLogout } = useAuth();
+const Navbar = ({ onOpen, ...rest }: NavProps) => {
+  const { isAuthenticated, user, googleLogout } = useAuth();
 
   return (
-    <Box
-      bg={useColorModeValue("gray.100", "gray.900")}
-      px={4}
-      position="sticky"
+    <Flex
+      ml={isAuthenticated ? { base: 0, md: 60 } : 0}
+      px={{ base: 4, md: 4 }}
+      height="20"
+      alignItems="center"
+      bg={useColorModeValue("white", "gray.900")}
+      borderBottomWidth="1px"
+      borderBottomColor={useColorModeValue("gray.200", "gray.700")}
+      justifyContent={
+        isAuthenticated
+          ? { base: "space-between", md: "flex-end" }
+          : "space-between"
+      }
+      {...rest}
     >
-      <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
-        <IconButton
-          size={"md"}
-          icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
-          aria-label={"Open Menu"}
-          display={{ md: "none" }}
-          onClick={isOpen ? onClose : onOpen}
-        />
-        <HStack spacing={8} alignItems={"center"}>
-          <Logo />
-          <HStack as={"nav"} spacing={4} display={{ base: "none", md: "flex" }}>
-            {Links.map((link) => (
-              <NavLink key={link}>{link}</NavLink>
-            ))}
-          </HStack>
+      <IconButton
+        display={{ base: "flex", md: "none" }}
+        onClick={onOpen}
+        variant="outline"
+        aria-label="open menu"
+        icon={<FiMenu />}
+      />
+      <Flex
+        h="20"
+        alignItems="center"
+        display={isAuthenticated ? { base: "flex", md: "none" } : "flex"}
+      >
+        <Logo destination="/" />
+        <HStack
+          as={"nav"}
+          ml={2}
+          spacing={4}
+          display={isAuthenticated ? "none" : { base: "none", md: "flex" }}
+        >
+          {Links.map((link) => (
+            <NavLink key={link}>{link}</NavLink>
+          ))}
         </HStack>
+      </Flex>
+
+      <HStack spacing={{ base: "0", md: "6" }}>
+        {isAuthenticated ? (
+          <IconButton
+            size="lg"
+            variant="ghost"
+            aria-label="open menu"
+            icon={<FiBell />}
+          />
+        ) : null}
         <Flex alignItems={"center"}>
           {isAuthenticated ? (
             <Menu>
@@ -130,31 +161,32 @@ export default function Navbar() {
               <Button
                 as={"a"}
                 fontSize={"sm"}
-                display={{ base: "none", md: "inline-flex" }}
+                fontWeight={400}
+                variant={"link"}
+                href={"/signin"}
+                display={{ base: "none", md: "flex" }}
+              >
+                Sign In
+              </Button>
+              <Button
+                as={"a"}
+                fontSize={"sm"}
                 fontWeight={600}
                 color={"white"}
                 bg={"green.400"}
-                onClick={googleAuth}
+                href={"/signup"}
                 _hover={{
                   bg: "green.300",
                 }}
               >
-                Google Login
+                Sign Un
               </Button>
             </Stack>
           )}
         </Flex>
-      </Flex>
-
-      {isOpen ? (
-        <Box pb={4} display={{ md: "none" }}>
-          <Stack as={"nav"} spacing={4}>
-            {Links.map((link) => (
-              <NavLink key={link}>{link}</NavLink>
-            ))}
-          </Stack>
-        </Box>
-      ) : null}
-    </Box>
+      </HStack>
+    </Flex>
   );
-}
+};
+
+export default Navbar;

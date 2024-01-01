@@ -3,7 +3,7 @@ import { Route, Routes } from "react-router-dom";
 
 import PrivateRoute from "~shared/PrivateRoute";
 
-import { useHead } from "~features/page-header/title/TitleContext";
+import { useHead } from "~features/title/TitleContext";
 
 import ViewDashboard from "./ViewDashboard";
 import ViewUserList from "./ViewUserList";

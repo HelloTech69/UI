@@ -12,6 +12,8 @@ import {
 
 import { Logo } from "~shared/components/logo/Logo";
 
+import { useAuth } from "~features/auth";
+
 const SocialButton = ({
   children,
   label,
@@ -44,11 +46,13 @@ const SocialButton = ({
   );
 };
 
-export default function SmallWithLogoLeft() {
+const Footer = () => {
+  const { isAuthenticated } = useAuth();
   return (
     <Box
       bg={useColorModeValue("gray.50", "gray.900")}
       color={useColorModeValue("gray.700", "gray.200")}
+      ml={isAuthenticated ? { base: 0, md: 60 } : 0}
     >
       <Container
         as={Stack}
@@ -75,4 +79,6 @@ export default function SmallWithLogoLeft() {
       </Container>
     </Box>
   );
-}
+};
+
+export default Footer;

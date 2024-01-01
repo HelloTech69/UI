@@ -8,7 +8,7 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 
 import customTheme from "~shared/theme";
 
-import { HeadProvider } from "~features/page-header/title/TitleContext";
+import { HeadProvider } from "~features/title/TitleContext";
 
 import App from "./App";
 
