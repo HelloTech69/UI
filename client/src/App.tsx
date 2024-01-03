@@ -5,6 +5,7 @@ import {
   Drawer,
   DrawerContent,
   Flex,
+  Spinner,
   useColorModeValue,
   useDisclosure,
 } from "@chakra-ui/react";
@@ -16,6 +17,7 @@ import { useAuth } from "~features/auth";
 
 // Private Component
 const DashboardPage = lazy(() => import("~features/pages/dashboard/Dashboard"));
+const PostsPage = lazy(() => import("~features/pages/posts/Posts"));
 
 // Public Component
 const LandingPage = lazy(() => import("~features/pages/landing/Landing"));
@@ -53,30 +55,39 @@ const App: React.FC = () => {
       minH="100vh"
       bg={useColorModeValue("gray.100", "gray.900")}
     >
-      <Suspense fallback={"Loading"}>
-        {isAuthenticated ? (
-          <Sidebar
-            onClose={() => onClose}
-            display={{ base: "none", md: "block" }}
-          />
-        ) : null}
-        <Drawer
-          isOpen={isOpen}
-          placement="left"
-          onClose={onClose}
-          returnFocusOnClose={false}
-          onOverlayClick={onClose}
-          size="full"
+      {isAuthenticated ? (
+        <Sidebar
+          onClose={() => onClose}
+          display={{ base: "none", md: "block" }}
+        />
+      ) : null}
+      <Drawer
+        isOpen={isOpen}
+        placement="left"
+        onClose={onClose}
+        returnFocusOnClose={false}
+        onOverlayClick={onClose}
+        size="full"
+      >
+        <DrawerContent>
+          <Sidebar onClose={onClose} />
+        </DrawerContent>
+      </Drawer>
+      <Navbar onOpen={onOpen} />
+      <Box flex="1" ml={isAuthenticated ? { base: 0, md: 60 } : 0} p="4">
+        <Suspense
+          fallback={
+            <Spinner
+              thickness="4px"
+              speed="0.65s"
+              emptyColor="gray.200"
+              color="blue.500"
+              size="xl"
+            />
+          }
         >
-          <DrawerContent>
-            <Sidebar onClose={onClose} />
-          </DrawerContent>
-        </Drawer>
-        <Navbar onOpen={onOpen} />
-        <Box flex="1" ml={isAuthenticated ? { base: 0, md: 60 } : 0} py="4">
           <Routes>
             {/* This is public route, later can add check to redirect authenticated user back to dashboard */}
-            Can move this Route and public route checking
             <Route element={<PublicRoute strict={true} />}>
               <Route path="/" element={<LandingPage />} />
               <Route path="/signin" element={<LoginPage />} />
@@ -85,11 +96,13 @@ const App: React.FC = () => {
             {/* This is private route, only authenticated user can access this route */}
             {/* /dashboard/* means that all paths starting with /dashboard/ will be handled by DashboardPage. */}
             <Route path="/dashboard/*" element={<DashboardPage />} />
+            <Route path="/posts/*" element={<PostsPage />} />
+            {/* This is 404 page, if no route match, this will be rendered */}
             <Route path="*" element={<div>404</div>} />
           </Routes>
-        </Box>
-        <Footer />
-      </Suspense>
+        </Suspense>
+      </Box>
+      <Footer />
     </Flex>
   );
 };

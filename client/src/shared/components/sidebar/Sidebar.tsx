@@ -1,5 +1,11 @@
 import { IconType } from "react-icons";
-import { FiCompass, FiSettings, FiStar, FiTrendingUp } from "react-icons/fi";
+import {
+  FiCompass,
+  FiList,
+  FiSettings,
+  FiStar,
+  FiTrendingUp,
+} from "react-icons/fi";
 import { RxDashboard } from "react-icons/rx";
 import {
   Box,
@@ -78,6 +84,7 @@ const NavLink = ({ href, children, ...rest }: Props) => {
 
 const LinkItems: Array<LinkItemProps> = [
   { name: "Dashboard", href: "/dashboard", icon: RxDashboard },
+  { name: "Posts", href: "/posts", icon: FiList },
   { name: "Trending", href: "/trending", icon: FiTrendingUp },
   { name: "Explore", href: "/explore", icon: FiCompass },
   { name: "Favourites", href: "/favourites", icon: FiStar },

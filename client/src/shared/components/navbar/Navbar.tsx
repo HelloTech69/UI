@@ -71,6 +71,7 @@ const Navbar = ({ onOpen, ...rest }: NavProps) => {
       height="20"
       position="sticky"
       top={0}
+      zIndex={10}
       alignItems="center"
       bg={useColorModeValue("white", "gray.900")}
       borderBottomWidth="1px"
