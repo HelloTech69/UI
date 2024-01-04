@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import {
   ArrowLeftIcon,
   ArrowRightIcon,
@@ -17,6 +17,8 @@ import {
   Text,
   Tooltip,
 } from "@chakra-ui/react";
+
+import { usePageStore } from "~shared/store";
 
 type PaginationProps = {
   canPreviousPage: boolean;
@@ -41,10 +43,36 @@ export const Pagination: FC<PaginationProps> = ({
   setPageSize,
   pageSize,
 }) => {
+  const { setPostCurrentPage, setPostPageSize } = usePageStore();
+  const [inputValue, setInputValue] = useState(String(pageIndex + 1));
+
+  useEffect(() => {
+    setInputValue(String(pageIndex + 1));
+    setPostCurrentPage(pageIndex + 1);
+  }, [pageIndex]);
+
+  useEffect(() => {
+    setPostPageSize(pageSize);
+  }, [pageSize]);
+
   return (
-    <Flex justifyContent="center" m={4} alignItems="center">
-      <Flex alignItems="center" me={3}>
-        <Text flexShrink="0" mr={8}>
+    <Flex
+      justifyContent="center"
+      m={4}
+      alignItems="center"
+      direction={{ base: "column", lg: "row" }}
+    >
+      <Flex
+        direction={{ base: "column", md: "row" }}
+        alignItems="center"
+        mr={3}
+        mb={{ base: "2", lg: "0" }}
+      >
+        <Text
+          flexShrink="0"
+          mr={{ base: "0", md: "6" }}
+          mb={{ base: "2", md: "0" }}
+        >
           Page{" "}
           <Text fontWeight="bold" as="span">
             {pageIndex + 1}
@@ -54,38 +82,46 @@ export const Pagination: FC<PaginationProps> = ({
             {pageCount}
           </Text>
         </Text>
-        <Text flexShrink="0">Go to page:</Text>{" "}
-        <NumberInput
-          ml={2}
-          mr={8}
-          w={28}
-          min={1}
-          max={pageCount}
-          onChange={(valueString) => {
-            const page = valueString ? parseInt(valueString) - 1 : 0;
-            setPageIndex(page);
-          }}
-          defaultValue={pageIndex + 1}
-        >
-          <NumberInputField />
-          <NumberInputStepper>
-            <NumberIncrementStepper />
-            <NumberDecrementStepper />
-          </NumberInputStepper>
-        </NumberInput>
-        <Select
-          w={32}
-          value={pageSize}
-          onChange={(event) => {
-            setPageSize(Number(event.target.value));
-          }}
-        >
-          {[10, 20, 30, 40, 50].map((pageSize) => (
-            <option key={pageSize} value={pageSize}>
-              Show {pageSize}
-            </option>
-          ))}
-        </Select>
+        <Flex alignItems="center">
+          <Flex alignItems="center">
+            <Text display={{ base: "none", sm: "flex" }} flexShrink="0">
+              Go to page:
+            </Text>{" "}
+            <NumberInput
+              ml={2}
+              mr={4}
+              w={28}
+              min={1}
+              max={pageCount}
+              onChange={(valueString) => {
+                setInputValue(valueString);
+                if (valueString === "") return;
+                const page = parseInt(valueString, 10) - 1;
+                setPageIndex(page);
+              }}
+              value={inputValue}
+            >
+              <NumberInputField />
+              <NumberInputStepper>
+                <NumberIncrementStepper />
+                <NumberDecrementStepper />
+              </NumberInputStepper>
+            </NumberInput>
+          </Flex>
+          <Select
+            w={32}
+            value={pageSize}
+            onChange={(event) => {
+              setPageSize(Number(event.target.value));
+            }}
+          >
+            {[10, 20, 30, 40, 50].map((pageSize) => (
+              <option key={pageSize} value={pageSize}>
+                Show {pageSize}
+              </option>
+            ))}
+          </Select>
+        </Flex>
       </Flex>
       <Flex>
         <Tooltip label="First Page">
@@ -103,6 +139,7 @@ export const Pagination: FC<PaginationProps> = ({
             onClick={() => previousPage()}
             isDisabled={!canPreviousPage}
             icon={<ChevronLeftIcon h={6} w={6} />}
+            mr={2}
           />
         </Tooltip>
         <Tooltip label="Next Page">
