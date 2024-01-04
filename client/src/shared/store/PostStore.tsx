@@ -1,9 +1,9 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-import { PostState } from "~shared/types";
+import { PostStateType } from "~shared/types";
 
-export const usePostStore = create<PostState>()(
+export const usePostStore = create<PostStateType>()(
   persist(
     (set) => ({
       posts: [],

@@ -1,6 +1,6 @@
 import { IPost } from "~features/interfaces";
 
-export interface PostState {
+export interface PostStateType {
   posts: IPost[];
   addPost: (newPost: IPost) => void;
   removePost: (id: number) => void;
