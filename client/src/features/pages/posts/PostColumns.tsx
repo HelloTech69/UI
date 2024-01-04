@@ -19,14 +19,18 @@ import {
 } from "@chakra-ui/react";
 import { ColumnDef, FilterFn } from "@tanstack/react-table";
 
+import { useCategoryStore, usePostStore } from "~shared/store";
+
 import { getAllCategories } from "~features/components/data";
-import { FilterElementProps, ICategory, IPost } from "~features/interfaces";
+import { FilterElementProps, IPost } from "~features/interfaces";
 
 export const usePostColumns = (): ColumnDef<IPost>[] => {
   const navigate = useNavigate();
   const toast = useToast();
   const [activePopoverId, setActivePopoverId] = useState<number | null>(null);
-  const [categories, setCategories] = useState<ICategory[]>([]);
+  const { removePost } = usePostStore();
+  const { categories, setCategories } = useCategoryStore();
+
   const handleEdit = (id: number) => {
     navigate(`/posts/edit/${id}`);
   };
@@ -40,7 +44,8 @@ export const usePostColumns = (): ColumnDef<IPost>[] => {
   };
 
   const onDelete = () => {
-    // actual deletion logic here
+    // TODO: Add actual API call to remove post from database
+    removePost(activePopoverId as number);
     toast({ title: `Post deleted ${activePopoverId}`, status: "error" });
     setActivePopoverId(null);
   };
@@ -51,15 +56,16 @@ export const usePostColumns = (): ColumnDef<IPost>[] => {
     return rowValue === filterNumber;
   };
 
-  // Mock function to simulate loading categories - replace with actual API call
-  useEffect(() => {
-    // Simulate fetching categories data
-    const fetchAllCategories = async () => {
-      // Replace with actual API call
+  const fetchAllCategories = async () => {
+    // TODO: Replace with actual API call
 
-      setCategories(getAllCategories);
-    };
-    fetchAllCategories();
+    setCategories(getAllCategories);
+  };
+
+  useEffect(() => {
+    if (categories.length === 0) {
+      fetchAllCategories();
+    }
   }, []);
 
   return [

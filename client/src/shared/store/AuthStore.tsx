@@ -38,7 +38,7 @@ const customSessionStorage: ZustandStorageType = {
   },
 };
 
-const useAuthStore = create<AuthStateType>()(
+export const useAuthStore = create<AuthStateType>()(
   persist(
     (set) => ({
       isAuthenticated: false,
@@ -65,5 +65,3 @@ const useAuthStore = create<AuthStateType>()(
     },
   ),
 );
-
-export default useAuthStore;

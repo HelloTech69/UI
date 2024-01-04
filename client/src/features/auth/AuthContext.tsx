@@ -4,7 +4,7 @@ import { useToast } from "@chakra-ui/react";
 import { CodeResponse, useGoogleLogin } from "@react-oauth/google";
 import { AxiosError } from "axios";
 
-import useAuthStore from "~shared/store/AuthStore";
+import { useAuthStore } from "~shared/store";
 
 import {
   api,

@@ -27,6 +27,8 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 
+import { usePostStore } from "~shared/store";
+
 import makeData from "~features/components/data/MakeData";
 import { Pagination } from "~features/components/pagination";
 import { ColumnFilter, ColumnSorter } from "~features/components/table";
@@ -35,19 +37,24 @@ import { IPost } from "~features/interfaces";
 import { usePostColumns } from "./index";
 
 export const PostList: React.FC = () => {
+  const { posts, setPosts } = usePostStore();
   const [isLoading, setIsLoading] = useState(true);
-  const [posts, setPosts] = useState<IPost[]>([]);
 
   const columns: ColumnDef<IPost>[] = usePostColumns();
 
+  const fetchAllPosts = async () => {
+    // Replace the following with actual API call
+    const data: IPost[] = makeData(100);
+    setPosts(data);
+    setIsLoading(false);
+  };
+
   useEffect(() => {
-    const fetchAllPosts = async () => {
-      // Replace the following with actual API call
-      const data: IPost[] = makeData(1000);
-      setPosts(data);
+    if (posts.length === 0) {
+      fetchAllPosts();
+    } else {
       setIsLoading(false);
-    };
-    fetchAllPosts();
+    }
   }, []);
 
   const table = useReactTable({

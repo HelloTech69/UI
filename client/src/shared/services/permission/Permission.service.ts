@@ -1,5 +1,5 @@
 import applicationPermissions from "~shared/models/Permissions";
-import useAuthStore from "~shared/store/AuthStore";
+import { useAuthStore } from "~shared/store";
 
 class PermissionService {
   // TODO: singleton instance

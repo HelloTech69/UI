@@ -11,7 +11,7 @@ import {
 } from "@chakra-ui/react";
 
 import PublicRoute from "~shared/PublicRoute";
-import useAuthStore from "~shared/store/AuthStore";
+import { useAuthStore } from "~shared/store";
 
 import { useAuth } from "~features/auth";
 
