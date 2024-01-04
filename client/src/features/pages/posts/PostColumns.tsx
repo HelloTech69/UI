@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { DeleteIcon, EditIcon, ViewIcon } from "@chakra-ui/icons";
 import {
   Button,
@@ -15,29 +14,25 @@ import {
   PopoverHeader,
   PopoverTrigger,
   Select,
+  Tooltip,
   useToast,
 } from "@chakra-ui/react";
-import { ColumnDef, FilterFn } from "@tanstack/react-table";
+import { ColumnDef } from "@tanstack/react-table";
 
 import { useCategoryStore, usePostStore } from "~shared/store";
 
 import { getAllCategories } from "~features/components/data";
+import {
+  customCategoryFilter,
+  customCreatedAtSorter,
+} from "~features/components/table";
 import { FilterElementProps, IPost } from "~features/interfaces";
 
 export const usePostColumns = (): ColumnDef<IPost>[] => {
-  const navigate = useNavigate();
   const toast = useToast();
   const [activePopoverId, setActivePopoverId] = useState<number | null>(null);
   const { removePost } = usePostStore();
   const { categories, setCategories } = useCategoryStore();
-
-  const handleEdit = (id: number) => {
-    navigate(`/posts/edit/${id}`);
-  };
-
-  const handleView = (id: number) => {
-    navigate(`/posts/show/${id}`);
-  };
 
   const handleDelete = (id: number) => {
     setActivePopoverId(id);
@@ -48,12 +43,6 @@ export const usePostColumns = (): ColumnDef<IPost>[] => {
     removePost(activePopoverId as number);
     toast({ title: `Post deleted ${activePopoverId}`, status: "error" });
     setActivePopoverId(null);
-  };
-
-  const customCategoryFilter: FilterFn<any> = (row, columnId, filterValue) => {
-    const rowValue = Number(row.getValue(columnId));
-    const filterNumber = Number(filterValue);
-    return rowValue === filterNumber;
   };
 
   const fetchAllCategories = async () => {
@@ -143,6 +132,7 @@ export const usePostColumns = (): ColumnDef<IPost>[] => {
       accessorKey: "createdAt",
       header: "Created At",
       enableColumnFilter: false,
+      sortingFn: customCreatedAtSorter,
       cell: (info) => {
         const dateValue = info.getValue() as string;
 
@@ -161,19 +151,24 @@ export const usePostColumns = (): ColumnDef<IPost>[] => {
       enableSorting: false,
       cell: (info) => (
         <HStack>
-          <IconButton
-            aria-label="View"
-            icon={<ViewIcon />}
-            onClick={() => handleView(info.row.original.id)}
-            variant="outline"
-          />
-          <IconButton
-            aria-label="Edit"
-            icon={<EditIcon />}
-            onClick={() => handleEdit(info.row.original.id)}
-            variant="outline"
-          />
-
+          <Tooltip hasArrow label="View Post" bg="gray.300" color="black">
+            <IconButton
+              aria-label="View"
+              as="a"
+              icon={<ViewIcon />}
+              href={`/posts/show/${info.row.original.id}`}
+              variant="outline"
+            />
+          </Tooltip>
+          <Tooltip hasArrow label="Edit Post" bg="blue.600">
+            <IconButton
+              aria-label="Edit"
+              as="a"
+              icon={<EditIcon />}
+              href={`/posts/edit/${info.row.original.id}`}
+              variant="outline"
+            />
+          </Tooltip>
           <Popover
             returnFocusOnClose={false}
             isOpen={activePopoverId === info.row.original.id}
@@ -190,12 +185,12 @@ export const usePostColumns = (): ColumnDef<IPost>[] => {
                 colorScheme="red"
               />
             </PopoverTrigger>
-            <PopoverContent>
+            <PopoverContent textAlign="center">
               <PopoverHeader fontWeight="semibold">Confirmation</PopoverHeader>
               <PopoverArrow />
               <PopoverCloseButton />
               <PopoverBody>Are you sure?</PopoverBody>
-              <PopoverFooter display="flex" justifyContent="flex-end">
+              <PopoverFooter display="flex" justifyContent="center">
                 <ButtonGroup size="sm">
                   <Button
                     variant="outline"

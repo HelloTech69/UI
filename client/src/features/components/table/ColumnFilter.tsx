@@ -9,8 +9,20 @@ import {
   MenuList,
   VStack,
 } from "@chakra-ui/react";
+import { FilterFn } from "@tanstack/react-table";
 
 import { ColumnButtonProps } from "~features/interfaces";
+
+// eslint-disable-next-line
+export const customCategoryFilter: FilterFn<any> = (
+  row,
+  columnId,
+  filterValue,
+) => {
+  const rowValue = Number(row.getValue(columnId));
+  const filterNumber = Number(filterValue);
+  return rowValue === filterNumber;
+};
 
 export const ColumnFilter: React.FC<ColumnButtonProps> = ({ column }) => {
   // eslint-disable-next-line
