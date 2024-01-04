@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { lazy, useEffect, useState } from "react";
 import { FiArrowLeft, FiEdit, FiList, FiRefreshCcw } from "react-icons/fi";
 import ReactMarkdown from "react-markdown";
 import { useParams } from "react-router-dom";
@@ -12,7 +12,6 @@ import {
   Heading,
   HStack,
   IconButton,
-  Spinner,
   Text,
   VStack,
 } from "@chakra-ui/react";
@@ -20,6 +19,8 @@ import {
 import { useCategoryStore, usePostStore } from "~shared/store";
 
 import { ICategory, IPost } from "~features/interfaces";
+
+const Loader = lazy(() => import("~shared/components/loader/Loader"));
 
 export const PostShow = () => {
   const { posts } = usePostStore();
@@ -48,7 +49,7 @@ export const PostShow = () => {
   }, []);
 
   if (isLoading) {
-    return <Spinner />;
+    return <Loader />;
   }
 
   return (

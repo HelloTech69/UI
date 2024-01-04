@@ -55,7 +55,7 @@ export const PostCreate = () => {
     addPost(newPost);
 
     // TODO: Add actual API call to add post to database
-    toast({ title: "Post Created", status: "success" });
+    toast({ title: "Post Created Successfully", status: "success" });
     navigate("/posts");
   };
 

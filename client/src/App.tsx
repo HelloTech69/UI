@@ -5,7 +5,6 @@ import {
   Drawer,
   DrawerContent,
   Flex,
-  Spinner,
   useColorModeValue,
   useDisclosure,
 } from "@chakra-ui/react";
@@ -28,6 +27,7 @@ const RegisterPage = lazy(() => import("~features/pages/register/Register"));
 const Sidebar = lazy(() => import("~shared/components/sidebar/Sidebar"));
 const Navbar = lazy(() => import("~shared/components/navbar/Navbar"));
 const Footer = lazy(() => import("~shared/components/footer/Footer"));
+const Loader = lazy(() => import("~shared/components/loader/Loader"));
 
 const App: React.FC = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -37,7 +37,7 @@ const App: React.FC = () => {
     const handleStorageChange = (event: StorageEvent) => {
       if (event.key === "auth-storage" && !event.newValue) {
         useAuthStore.setState({
-          isAuthenticated: false,
+          isAuthenticated: true,
           user: null,
           role: null,
         });
@@ -75,17 +75,7 @@ const App: React.FC = () => {
       </Drawer>
       <Navbar onOpen={onOpen} />
       <Box flex="1" ml={isAuthenticated ? { base: 0, md: 60 } : 0} p="4">
-        <Suspense
-          fallback={
-            <Spinner
-              thickness="4px"
-              speed="0.65s"
-              emptyColor="gray.200"
-              color="blue.500"
-              size="xl"
-            />
-          }
-        >
+        <Suspense fallback={<Loader />}>
           <Routes>
             {/* This is public route, later can add check to redirect authenticated user back to dashboard */}
             <Route element={<PublicRoute strict={true} />}>

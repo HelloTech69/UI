@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { lazy, useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { FiArrowLeft, FiList, FiRefreshCcw, FiSave } from "react-icons/fi";
 import { useNavigate, useParams } from "react-router-dom";
@@ -16,7 +16,6 @@ import {
   IconButton,
   Input,
   Select,
-  Spinner,
   Text,
   useToast,
   VStack,
@@ -26,6 +25,8 @@ import { format } from "date-fns";
 import { useCategoryStore, usePostStore } from "~shared/store";
 
 import { ICategory, IPost } from "~features/interfaces";
+
+const Loader = lazy(() => import("~shared/components/loader/Loader"));
 
 export const PostEdit = () => {
   const {
@@ -88,12 +89,12 @@ export const PostEdit = () => {
     updatePost(newPost);
 
     // TODO: Add actual API call to edit post in database
-    toast({ title: "Post updated", status: "success" });
+    toast({ title: "Post updated Successfully", status: "success" });
     navigate("/posts");
   };
 
   if (isLoading) {
-    return <Spinner />;
+    return <Loader />;
   }
 
   return (

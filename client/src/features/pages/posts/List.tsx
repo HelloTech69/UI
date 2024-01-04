@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { lazy, useEffect, useState } from "react";
 import { CgAddR } from "react-icons/cg";
 import {
   Box,
@@ -6,11 +6,11 @@ import {
   Flex,
   Heading,
   HStack,
-  Spinner,
   Table,
   TableContainer,
   Tbody,
   Td,
+  Text,
   Th,
   Thead,
   Tr,
@@ -27,7 +27,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 
-import { usePostStore } from "~shared/store";
+import { usePageStore, usePostStore } from "~shared/store";
 
 import makeData from "~features/components/data/MakeData";
 import { Pagination } from "~features/components/pagination";
@@ -36,30 +36,37 @@ import { IPost } from "~features/interfaces";
 
 import { usePostColumns } from "./index";
 
+const Loader = lazy(() => import("~shared/components/loader/Loader"));
+
 export const PostList: React.FC = () => {
   const { posts, setPosts } = usePostStore();
+  const { postCurrentPage, postPageSize } = usePageStore();
   const [isLoading, setIsLoading] = useState(true);
 
   const columns: ColumnDef<IPost>[] = usePostColumns();
 
   const fetchAllPosts = async () => {
-    // Replace the following with actual API call
+    // TODO: Replace the following with actual API call
     const data: IPost[] = makeData(100);
     setPosts(data);
     setIsLoading(false);
   };
 
-  useEffect(() => {
-    if (posts.length === 0) {
-      fetchAllPosts();
-    } else {
-      setIsLoading(false);
-    }
-  }, []);
-
   const table = useReactTable({
     data: posts,
     columns,
+    initialState: {
+      sorting: [
+        {
+          id: "id",
+          desc: false,
+        },
+      ],
+      pagination: {
+        pageIndex: postCurrentPage - 1,
+        pageSize: postPageSize,
+      },
+    },
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     getSortedRowModel: getSortedRowModel(),
@@ -71,8 +78,24 @@ export const PostList: React.FC = () => {
     debugColumns: false,
   });
 
+  useEffect(() => {
+    if (posts.length === 0) {
+      fetchAllPosts();
+    } else {
+      setIsLoading(false);
+    }
+  }, []);
+
+  const startIndex =
+    table.getState().pagination.pageSize *
+    table.getState().pagination.pageIndex;
+  const endIndex = Math.min(
+    startIndex + table.getState().pagination.pageSize,
+    posts.length,
+  );
+
   if (isLoading) {
-    return <Spinner />;
+    return <Loader />;
   }
 
   return (
@@ -82,6 +105,20 @@ export const PostList: React.FC = () => {
           <Heading as="h3" size="lg">
             Posts
           </Heading>
+          <Text display={{ base: "none", sm: "inline" }} flexShrink="0" ml={4}>
+            Showing{" "}
+            <Text fontWeight="bold" as="span">
+              {startIndex + 1}
+            </Text>{" "}
+            to{" "}
+            <Text fontWeight="bold" as="span">
+              {endIndex}
+            </Text>{" "}
+            of{" "}
+            <Text fontWeight="bold" as="span">
+              {posts.length}
+            </Text>
+          </Text>
         </Flex>
         <Flex>
           <Button
