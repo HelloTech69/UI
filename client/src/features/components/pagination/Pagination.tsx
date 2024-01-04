@@ -41,10 +41,9 @@ export const Pagination: FC<PaginationProps> = ({
   setPageSize,
   pageSize,
 }) => {
-  // Pagination UI logic
   return (
     <Flex justifyContent="center" m={4} alignItems="center">
-      <Flex alignItems="center">
+      <Flex alignItems="center" me={3}>
         <Text flexShrink="0" mr={8}>
           Page{" "}
           <Text fontWeight="bold" as="span">

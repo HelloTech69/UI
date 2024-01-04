@@ -60,6 +60,7 @@ export const ColumnFilter: React.FC<ColumnButtonProps> = ({ column }) => {
     return (
       <FilterComponent
         value={state?.value}
+        // eslint-disable-next-line
         onChange={(event: any) => change(event.target.value)}
       />
     );
