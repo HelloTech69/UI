@@ -5,7 +5,10 @@ type PermissionsModel = {
 const applicationPermissions: PermissionsModel = {
   dashboard: ["org.admin", "org.user"],
   deletepost: ["org.admin", "org.permissions.posts.delete"],
-  gayneil: ["org.admin", "org.permissions.SERVICENAME.read"],
+  editpost: ["org.admin", "org.permissions.posts.edit"],
+  listpost: ["org.admin", "org.permissions.posts.list"],
+  showpost: ["org.admin", "org.permissions.posts.show"],
+  createpost: ["org.admin", "org.permissions.posts.create"],
 
   /*
    * Use org.admin or org.user when specific permissions are not required

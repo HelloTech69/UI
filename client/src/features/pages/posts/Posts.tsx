@@ -17,18 +17,18 @@ const Posts = () => {
 
   return (
     <Routes>
-      {/* <Route element={<PrivateRoute resourceRequested="postlist" />}>
-                <Route index element={<PostList />} />
-            </Route>
-            <Route element={<PrivateRoute resourceRequested="postcreate" />}>
-                <Route path="create" element={<PostCreate />} />
-            </Route>
-            <Route element={<PrivateRoute resourceRequested="postedit" />}>
-                <Route path="edit/:id" element={<PostEdit />} />
-            </Route>
-            <Route element={<PrivateRoute resourceRequested="postshow" />}>
-                <Route path="show/:id" element={<PostShow />} />
-            </Route> */}
+      {/* <Route element={<PrivateRoute resourceRequested="listpost" />}>
+        <Route index element={<PostList />} />
+      </Route>
+      <Route element={<PrivateRoute resourceRequested="createpost" />}>
+        <Route path="create" element={<PostCreate />} />
+      </Route>
+      <Route element={<PrivateRoute resourceRequested="editpost" />}>
+        <Route path="edit/:id" element={<PostEdit />} />
+      </Route>
+      <Route element={<PrivateRoute resourceRequested="showpost" />}>
+        <Route path="show/:id" element={<PostShow />} />
+      </Route> */}
       <Route index element={<PostList />} />
       <Route path="show/:id" element={<PostShow />} />
       <Route path="create" element={<PostCreate />} />

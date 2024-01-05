@@ -13,7 +13,9 @@ export const RoleGroups = {
     name: 'User',
     roles: [
       'org.user',
-      'org.permissions.SERVICENAME.read',
+      'org.permissions.posts.list',
+      'org.permissions.posts.show',
+      'org.permissions.posts.create',
       'org.permissions.one.read',
       'org.permissions.three.read',
     ],
