@@ -5,6 +5,7 @@
       "~shared/*": ["./src/shared/*"],
       "~models/*": ["./src/shared/models/*"],
       "~features/*": ["./src/features/*"],
+      "~assets/*": ["./src/assets/*"],
       "~locales/*": ["./src/shared/locales/*"],
       "~api": ["./src/features/api/api"],
       "~types": ["./src/shared/types"],
