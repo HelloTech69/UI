@@ -1,4 +1,4 @@
-import { lazy, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { FiArrowLeft, FiEdit, FiList, FiRefreshCcw } from "react-icons/fi";
 import ReactMarkdown from "react-markdown";
 import { useParams } from "react-router-dom";
@@ -12,7 +12,9 @@ import {
   Heading,
   HStack,
   IconButton,
+  Stack,
   Text,
+  useColorModeValue as mode,
   VStack,
 } from "@chakra-ui/react";
 
@@ -20,15 +22,12 @@ import { useCategoryStore, usePostStore } from "~shared/store";
 
 import { ICategory, IPost } from "~features/interfaces";
 
-const Loader = lazy(() => import("~shared/components/loader/Loader"));
-
 export const PostShow = () => {
   const { posts } = usePostStore();
   const { categories } = useCategoryStore();
 
   const [post, setPost] = useState<IPost>();
   const [category, setCategory] = useState<ICategory>();
-  const [isLoading, setIsLoading] = useState(true);
 
   const { id } = useParams<{ id: string }>();
 
@@ -37,25 +36,23 @@ export const PostShow = () => {
   };
 
   useEffect(() => {
-    setIsLoading(true);
-
     const post = posts.find((post) => post.id === Number(id));
     const category = categories.find(
       (category) => category.id === post?.category.id,
     );
     setPost(post);
     setCategory(category);
-    setIsLoading(false);
   }, []);
 
-  if (isLoading) {
-    return <Loader />;
-  }
-
   return (
-    <Box p="4" bg="white" pb={8}>
-      <Flex justifyContent="space-between" mb={4} alignItems="center">
-        <VStack spacing={3} alignItems="flex-start">
+    <Box p={4} bg={mode("white", "gray.800")} pb={8}>
+      <Flex
+        direction={{ base: "column", sm: "row" }}
+        justifyContent="space-between"
+        mb={4}
+        alignItems={{ base: "flex-start", sm: "center" }}
+      >
+        <VStack spacing={3} alignItems="flex-start" mb={{ base: "2", sm: "0" }}>
           <Breadcrumb>
             <BreadcrumbItem>
               <BreadcrumbLink href="/posts" fontSize={18}>
@@ -81,7 +78,7 @@ export const PostShow = () => {
             </Text>
           </HStack>
         </VStack>
-        <HStack>
+        <Stack direction={{ base: "column", sm: "row" }} spacing={4}>
           <Button leftIcon={<FiList />} as="a" href="/posts" variant="outline">
             Posts
           </Button>
@@ -101,7 +98,7 @@ export const PostShow = () => {
           >
             Refresh
           </Button>
-        </HStack>
+        </Stack>
       </Flex>
       <VStack align="start" spacing={4}>
         <Heading as="h5" size="sm">

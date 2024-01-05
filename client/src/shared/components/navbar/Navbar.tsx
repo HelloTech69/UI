@@ -1,170 +1,129 @@
-import { FiBell, FiMenu } from "react-icons/fi";
+import { useState } from "react";
 import {
-  Avatar,
+  BellIcon,
+  CloseIcon,
+  HamburgerIcon,
+  MoonIcon,
+  SunIcon,
+} from "@chakra-ui/icons";
+import {
   Box,
   Button,
-  Center,
   Flex,
   FlexProps,
   HStack,
   IconButton,
-  Menu,
-  MenuButton,
-  MenuDivider,
-  MenuItem,
-  MenuList,
-  Portal,
   Stack,
-  useColorModeValue,
+  useColorMode,
+  useColorModeValue as mode,
 } from "@chakra-ui/react";
 
 import { Logo } from "~shared/components/logo/Logo";
 
 import { useAuth } from "~features/auth";
 
+import { AuthMenu } from "./AuthMenu";
+import { Links } from "./Links";
+import { NavLink } from "./NavLink";
+
 interface NavProps extends FlexProps {
   onOpen: () => void;
 }
 
-interface Props {
-  href: string;
-  children: React.ReactNode;
-}
+const Navbar = ({ onOpen, ...rest }: NavProps) => {
+  const { colorMode, toggleColorMode } = useColorMode();
+  const { isAuthenticated } = useAuth();
+  const [isOpen, setIsOpen] = useState(false);
+  const toggleOpen = () => setIsOpen(true);
+  const toggleClose = () => setIsOpen(false);
 
-interface NavLinkProps {
-  name: string;
-  href: string;
-}
+  const getIcon = () => {
+    if (isAuthenticated) {
+      return <HamburgerIcon />;
+    } else if (isOpen) {
+      return <CloseIcon />;
+    } else {
+      return <HamburgerIcon />;
+    }
+  };
 
-const Links: Array<NavLinkProps> = [
-  { name: "Get Started", href: "#getstarted" },
-  { name: "About Us", href: "#aboutus" },
-  { name: "Features", href: "#features" },
-  { name: "Contact Us", href: "#contactus" },
-];
+  const handleIconButtonClick = () => {
+    if (isAuthenticated) {
+      onOpen();
+    } else {
+      isOpen ? toggleClose() : toggleOpen();
+    }
+  };
 
-const NavLink = ({ href, children }: Props) => {
   return (
     <Box
-      as="a"
-      px={2}
-      py={1}
-      rounded={"md"}
-      _hover={{
-        textDecoration: "none",
-        bg: useColorModeValue("gray.200", "gray.700"),
-      }}
-      href={href}
-    >
-      {children}
-    </Box>
-  );
-};
-
-const Navbar = ({ onOpen, ...rest }: NavProps) => {
-  const { isAuthenticated, user, googleLogout } = useAuth();
-
-  return (
-    <Flex
-      ml={isAuthenticated ? { base: 0, md: 60 } : 0}
-      px={{ base: 4, md: 4 }}
+      ml={isAuthenticated ? { base: 0, lg: 60 } : 0}
+      px={{ base: 4, lg: 4 }}
       height="20"
       position="sticky"
       top={0}
       zIndex={10}
-      alignItems="center"
-      bg={useColorModeValue("white", "gray.900")}
+      bg={mode("white", "gray.800")}
       borderBottomWidth="1px"
-      borderBottomColor={useColorModeValue("gray.200", "gray.700")}
-      justifyContent={
-        isAuthenticated
-          ? { base: "space-between", md: "flex-end" }
-          : "space-between"
-      }
-      {...rest}
+      borderBottomColor={mode("gray.200", "gray.700")}
     >
-      <IconButton
-        display={{ base: "flex", md: "none" }}
-        onClick={onOpen}
-        variant="outline"
-        aria-label="open menu"
-        icon={<FiMenu />}
-      />
       <Flex
-        h="20"
         alignItems="center"
-        display={isAuthenticated ? { base: "flex", md: "none" } : "flex"}
+        justifyContent={
+          isAuthenticated
+            ? { base: "space-between", lg: "flex-end" }
+            : "space-between"
+        }
+        {...rest}
       >
-        <Logo destination="/" />
-        <HStack
-          as={"nav"}
-          ml={2}
-          spacing={4}
-          display={isAuthenticated ? "none" : { base: "none", md: "flex" }}
+        <IconButton
+          display={{ base: "flex", lg: "none" }}
+          onClick={handleIconButtonClick}
+          variant="outline"
+          aria-label="open menu"
+          icon={getIcon()}
+        />
+        <Flex
+          h="20"
+          alignItems="center"
+          display={isAuthenticated ? { base: "flex", lg: "none" } : "flex"}
         >
-          {Links.map((link) => (
-            <NavLink key={link.name} href={link.href}>
-              {link.name}
-            </NavLink>
-          ))}
-        </HStack>
-      </Flex>
+          <Logo destination="/" />
+          <HStack
+            as={"nav"}
+            ml={2}
+            spacing={4}
+            display={isAuthenticated ? "none" : { base: "none", lg: "flex" }}
+          >
+            {Links.map((link) => (
+              <NavLink key={link.name} href={link.href}>
+                {link.name}
+              </NavLink>
+            ))}
+          </HStack>
+        </Flex>
 
-      <HStack spacing={{ base: "0", md: "6" }}>
-        {isAuthenticated ? (
+        <Flex h="20" alignItems="center">
           <IconButton
+            aria-label="toggleMode"
             size="lg"
+            mx="2"
             variant="ghost"
-            aria-label="open menu"
-            icon={<FiBell />}
+            onClick={toggleColorMode}
+            icon={colorMode === "light" ? <MoonIcon /> : <SunIcon />}
           />
-        ) : null}
-        <Flex alignItems={"center"}>
           {isAuthenticated ? (
-            <Menu>
-              <MenuButton
-                as={Button}
-                rounded={"full"}
-                variant={"link"}
-                cursor={"pointer"}
-                minW={0}
-              >
-                <Avatar
-                  size={"sm"}
-                  src={
-                    user?.picture
-                      ? user?.picture
-                      : "https://avatars.dicebear.com/api/male/username.svg"
-                  }
-                  referrerPolicy="no-referrer"
-                />
-              </MenuButton>
-              <Portal>
-                <MenuList alignItems={"center"}>
-                  <br />
-                  <Center>
-                    <Avatar
-                      size={"2xl"}
-                      src={
-                        user?.picture
-                          ? user?.picture
-                          : "https://avatars.dicebear.com/api/male/username.svg"
-                      }
-                      referrerPolicy="no-referrer"
-                    />
-                  </Center>
-                  <br />
-                  <Center>
-                    <p>{user?.username}</p>
-                  </Center>
-                  <br />
-                  <MenuDivider />
-                  <MenuItem>Your Servers</MenuItem>
-                  <MenuItem>Account Settings</MenuItem>
-                  <MenuItem onClick={googleLogout}>Logout</MenuItem>
-                </MenuList>
-              </Portal>
-            </Menu>
+            <IconButton
+              size="lg"
+              mr="3"
+              display={{ base: "none", sm: "flex" }}
+              variant="ghost"
+              aria-label="open menu"
+              icon={<BellIcon />}
+            />
+          ) : null}
+          {isAuthenticated ? (
+            <AuthMenu />
           ) : (
             <Stack
               flex={{ base: 1, md: 0 }}
@@ -178,7 +137,7 @@ const Navbar = ({ onOpen, ...rest }: NavProps) => {
                 fontWeight={400}
                 variant={"link"}
                 href={"/signin"}
-                display={{ base: "none", md: "flex" }}
+                display={{ base: "none", lg: "flex" }}
               >
                 Sign In
               </Button>
@@ -193,13 +152,24 @@ const Navbar = ({ onOpen, ...rest }: NavProps) => {
                   bg: "green.300",
                 }}
               >
-                Sign Un
+                Sign Up
               </Button>
             </Stack>
           )}
         </Flex>
-      </HStack>
-    </Flex>
+      </Flex>
+      {isOpen ? (
+        <Box pb={4} display={{ lg: "none" }}>
+          <Stack as={"nav"} spacing={4}>
+            {Links.map((link) => (
+              <NavLink key={link.name} href={link.href}>
+                {link.name}
+              </NavLink>
+            ))}
+          </Stack>
+        </Box>
+      ) : null}
+    </Box>
   );
 };
 

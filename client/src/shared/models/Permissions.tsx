@@ -4,6 +4,7 @@ type PermissionsModel = {
 
 const applicationPermissions: PermissionsModel = {
   dashboard: ["org.admin", "org.user"],
+  deletepost: ["org.admin", "org.permissions.posts.delete"],
   gayneil: ["org.admin", "org.permissions.SERVICENAME.read"],
 
   /*

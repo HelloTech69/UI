@@ -7,10 +7,10 @@ import {
   Icon,
   Stack,
   Text,
-  useColorModeValue,
+  useColorModeValue as mode,
 } from "@chakra-ui/react";
 
-export default function CallToActionWithAnnotation() {
+export const Hero = () => {
   return (
     <Container maxW={"3xl"} px={8}>
       <Stack
@@ -60,7 +60,7 @@ export default function CallToActionWithAnnotation() {
           <Box>
             <Icon
               as={Arrow}
-              color={useColorModeValue("gray.800", "gray.300")}
+              color={mode("gray.800", "gray.300")}
               w={71}
               position={"absolute"}
               right={-71}
@@ -81,7 +81,7 @@ export default function CallToActionWithAnnotation() {
       </Stack>
     </Container>
   );
-}
+};
 
 const Arrow = createIcon({
   displayName: "Arrow",

@@ -5,7 +5,7 @@ import {
   Drawer,
   DrawerContent,
   Flex,
-  useColorModeValue,
+  useColorModeValue as mode,
   useDisclosure,
 } from "@chakra-ui/react";
 
@@ -50,15 +50,11 @@ const App: React.FC = () => {
   }, []);
 
   return (
-    <Flex
-      direction="column"
-      minH="100vh"
-      bg={useColorModeValue("gray.100", "gray.900")}
-    >
+    <Flex direction="column" minH="100vh" bg={mode("gray.100", "gray.900")}>
       {isAuthenticated ? (
         <Sidebar
           onClose={() => onClose}
-          display={{ base: "none", md: "block" }}
+          display={{ base: "none", lg: "block" }}
         />
       ) : null}
       <Drawer
@@ -67,14 +63,13 @@ const App: React.FC = () => {
         onClose={onClose}
         returnFocusOnClose={false}
         onOverlayClick={onClose}
-        size="full"
       >
         <DrawerContent>
           <Sidebar onClose={onClose} />
         </DrawerContent>
       </Drawer>
       <Navbar onOpen={onOpen} />
-      <Box flex="1" ml={isAuthenticated ? { base: 0, md: 60 } : 0} p="4">
+      <Box flex="1" ml={isAuthenticated ? { base: 0, lg: 60 } : 0} p="8">
         <Suspense fallback={<Loader />}>
           <Routes>
             {/* This is public route, later can add check to redirect authenticated user back to dashboard */}

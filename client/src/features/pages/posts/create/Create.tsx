@@ -16,6 +16,8 @@ import {
   Input,
   Select,
   Text,
+  Textarea,
+  useColorModeValue as mode,
   useToast,
   VStack,
 } from "@chakra-ui/react";
@@ -60,7 +62,7 @@ export const PostCreate = () => {
   };
 
   return (
-    <Box p="4" bg="white" pb={8}>
+    <Box p={4} bg={mode("white", "gray.800")} pb={8}>
       <Flex justifyContent="left" mb={4} alignItems="center">
         <VStack spacing={3} alignItems="flex-start">
           <Breadcrumb>
@@ -133,9 +135,8 @@ export const PostCreate = () => {
 
           <FormControl isInvalid={!!errors.content}>
             <FormLabel htmlFor="content">Content</FormLabel>
-            <Input
+            <Textarea
               id="content"
-              type="text"
               {...register("content", { required: "Content is required" })}
             />
             <FormErrorMessage>

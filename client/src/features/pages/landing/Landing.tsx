@@ -3,10 +3,7 @@ import { Box } from "@chakra-ui/react";
 
 import { useHead } from "~features/title/TitleContext";
 
-import Aboutus from "./aboutus/Aboutus";
-import Cards from "./cards/Cards";
-import Contact from "./contact/Contact";
-import Hero from "./hero/Hero";
+import { Aboutus, Contact, Features, Hero } from "./index";
 
 const Landing = () => {
   const updateHead = useHead();
@@ -26,7 +23,7 @@ const Landing = () => {
         <Aboutus />
       </section>
       <section id="features">
-        <Cards />
+        <Features />
       </section>
       <section id="contactus">
         <Contact />

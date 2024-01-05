@@ -1,4 +1,4 @@
-import { lazy, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { FiArrowLeft, FiList, FiRefreshCcw, FiSave } from "react-icons/fi";
 import { useNavigate, useParams } from "react-router-dom";
@@ -17,6 +17,8 @@ import {
   Input,
   Select,
   Text,
+  Textarea,
+  useColorModeValue as mode,
   useToast,
   VStack,
 } from "@chakra-ui/react";
@@ -25,8 +27,6 @@ import { format } from "date-fns";
 import { useCategoryStore, usePostStore } from "~shared/store";
 
 import { ICategory, IPost } from "~features/interfaces";
-
-const Loader = lazy(() => import("~shared/components/loader/Loader"));
 
 export const PostEdit = () => {
   const {
@@ -41,7 +41,6 @@ export const PostEdit = () => {
   const { categories } = useCategoryStore();
 
   const [post, setPost] = useState<IPost>();
-  const [isLoading, setIsLoading] = useState(true);
 
   const { id } = useParams<{ id: string }>();
 
@@ -57,8 +56,6 @@ export const PostEdit = () => {
   };
 
   useEffect(() => {
-    setIsLoading(true);
-
     const post = posts.find((post) => post.id === Number(id));
     const category = categories.find(
       (category) => category.id === post?.category.id,
@@ -67,7 +64,6 @@ export const PostEdit = () => {
     if (post && category) {
       populatePost(post, category);
     }
-    setIsLoading(false);
   }, []);
 
   const onSubmit: SubmitHandler<IPost> = (data) => {
@@ -93,13 +89,14 @@ export const PostEdit = () => {
     navigate("/posts");
   };
 
-  if (isLoading) {
-    return <Loader />;
-  }
-
   return (
-    <Box p="4" bg="white" pb={8}>
-      <Flex justifyContent="space-between" mb={4} alignItems="center">
+    <Box p={4} bg={mode("white", "gray.800")} pb={8}>
+      <Flex
+        direction={{ base: "column", sm: "row" }}
+        justifyContent="space-between"
+        mb={4}
+        alignItems={{ base: "flex-start", sm: "center" }}
+      >
         <VStack spacing={3} alignItems="flex-start">
           <Breadcrumb>
             <BreadcrumbItem>
@@ -189,9 +186,8 @@ export const PostEdit = () => {
 
           <FormControl isInvalid={!!errors.content}>
             <FormLabel htmlFor="content">Content</FormLabel>
-            <Input
+            <Textarea
               id="content"
-              type="text"
               {...register("content", { required: "Content is required" })}
             />
             <FormErrorMessage>

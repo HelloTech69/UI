@@ -1,4 +1,4 @@
-import React, { lazy, useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { CgAddR } from "react-icons/cg";
 import {
   Box,
@@ -14,6 +14,7 @@ import {
   Th,
   Thead,
   Tr,
+  useColorModeValue as mode,
 } from "@chakra-ui/react";
 import {
   ColumnDef,
@@ -34,14 +35,11 @@ import { Pagination } from "~features/components/pagination";
 import { ColumnFilter, ColumnSorter } from "~features/components/table";
 import { IPost } from "~features/interfaces";
 
-import { usePostColumns } from "./index";
-
-const Loader = lazy(() => import("~shared/components/loader/Loader"));
+import { usePostColumns } from "../index";
 
 export const PostList: React.FC = () => {
   const { posts, setPosts } = usePostStore();
   const { postCurrentPage, postPageSize } = usePageStore();
-  const [isLoading, setIsLoading] = useState(true);
 
   const columns: ColumnDef<IPost>[] = usePostColumns();
 
@@ -49,7 +47,6 @@ export const PostList: React.FC = () => {
     // TODO: Replace the following with actual API call
     const data: IPost[] = makeData(100);
     setPosts(data);
-    setIsLoading(false);
   };
 
   const table = useReactTable({
@@ -81,8 +78,6 @@ export const PostList: React.FC = () => {
   useEffect(() => {
     if (posts.length === 0) {
       fetchAllPosts();
-    } else {
-      setIsLoading(false);
     }
   }, []);
 
@@ -94,12 +89,8 @@ export const PostList: React.FC = () => {
     posts.length,
   );
 
-  if (isLoading) {
-    return <Loader />;
-  }
-
   return (
-    <Box p="4" bg="white">
+    <Box p={4} bg={mode("white", "gray.800")}>
       <Flex justifyContent="space-between" m={4} alignItems="center">
         <Flex alignItems="center">
           <Heading as="h3" size="lg">

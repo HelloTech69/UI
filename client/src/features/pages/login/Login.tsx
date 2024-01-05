@@ -16,7 +16,7 @@ import {
   Link,
   Stack,
   Text,
-  useColorModeValue,
+  useColorModeValue as mode,
 } from "@chakra-ui/react";
 
 import { useAuth } from "~features/auth";
@@ -30,7 +30,7 @@ const Login = () => {
       minH={"100vh"}
       align={"center"}
       justify={"center"}
-      bg={useColorModeValue("gray.50", "gray.800")}
+      bg={mode("gray.50", "gray.800")}
     >
       <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
         <Stack align={"center"}>
@@ -44,7 +44,7 @@ const Login = () => {
         </Stack>
         <Box
           rounded={"lg"}
-          bg={useColorModeValue("white", "gray.700")}
+          bg={mode("white", "gray.700")}
           boxShadow={"lg"}
           p={8}
         >
@@ -79,6 +79,7 @@ const Login = () => {
                 <Text color={"blue.400"}>Forgot password?</Text>
               </Stack>
               <Button
+                loadingText="Submitting"
                 bg={"blue.400"}
                 color={"white"}
                 _hover={{

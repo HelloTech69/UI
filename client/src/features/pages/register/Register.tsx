@@ -15,7 +15,7 @@ import {
   Link,
   Stack,
   Text,
-  useColorModeValue,
+  useColorModeValue as mode,
 } from "@chakra-ui/react";
 
 import { useAuth } from "~features/auth";
@@ -29,7 +29,7 @@ const Register = () => {
       minH={"100vh"}
       align={"center"}
       justify={"center"}
-      bg={useColorModeValue("gray.50", "gray.800")}
+      bg={mode("gray.50", "gray.800")}
     >
       <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
         <Stack align={"center"}>
@@ -39,7 +39,7 @@ const Register = () => {
         </Stack>
         <Box
           rounded={"lg"}
-          bg={useColorModeValue("white", "gray.700")}
+          bg={mode("white", "gray.700")}
           boxShadow={"lg"}
           p={8}
         >
@@ -68,7 +68,7 @@ const Register = () => {
                 </InputRightElement>
               </InputGroup>
             </FormControl>
-            <Stack spacing={10} pt={2}>
+            <Stack spacing={10} py={2}>
               <Button
                 loadingText="Submitting"
                 size="lg"
@@ -81,6 +81,13 @@ const Register = () => {
                 Sign up
               </Button>
             </Stack>
+            <Flex align="center">
+              <Box flex="1" height="1px" bg="gray.300" />
+              <Text mx={4} color="gray.600">
+                OR
+              </Text>
+              <Box flex="1" height="1px" bg="gray.300" />
+            </Flex>
             <Stack spacing={10} pt={2}>
               <Button
                 w={"full"}
