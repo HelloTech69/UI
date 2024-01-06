@@ -15,6 +15,7 @@ export const RoleGroups = {
       'org.user',
       'org.permissions.posts.list',
       'org.permissions.posts.show',
+      'org.permissions.posts.edit',
       'org.permissions.posts.create',
       'org.permissions.one.read',
       'org.permissions.three.read',
