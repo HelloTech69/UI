@@ -15,7 +15,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 
-import { FeatureCard } from "../../../../shared/components/card/FeatureCard";
+import { FeatureCard } from "../../../components/card";
 
 export const Features = () => {
   return (

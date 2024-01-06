@@ -1,7 +1,8 @@
 import { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 
-// import PrivateRoute from "~shared/PrivateRoute";
+import PrivateRoute from "~shared/PrivateRoute";
+
 import { useHead } from "~features/title/TitleContext";
 
 import { PostCreate, PostEdit, PostList, PostShow } from "./index";
@@ -17,7 +18,7 @@ const Posts = () => {
 
   return (
     <Routes>
-      {/* <Route element={<PrivateRoute resourceRequested="listpost" />}>
+      <Route element={<PrivateRoute resourceRequested="listpost" />}>
         <Route index element={<PostList />} />
       </Route>
       <Route element={<PrivateRoute resourceRequested="createpost" />}>
@@ -28,11 +29,11 @@ const Posts = () => {
       </Route>
       <Route element={<PrivateRoute resourceRequested="showpost" />}>
         <Route path="show/:id" element={<PostShow />} />
-      </Route> */}
-      <Route index element={<PostList />} />
+      </Route>
+      {/* <Route index element={<PostList />} />
       <Route path="show/:id" element={<PostShow />} />
       <Route path="create" element={<PostCreate />} />
-      <Route path="edit/:id" element={<PostEdit />} />
+      <Route path="edit/:id" element={<PostEdit />} /> */}
     </Routes>
   );
 };

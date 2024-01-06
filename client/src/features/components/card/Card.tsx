@@ -15,7 +15,6 @@ export const Card: React.FC<CardProps> = ({ children, ...rest }) => {
       position="relative"
       borderRadius="20px"
       minWidth="0px"
-      wordWrap="break-word"
       bg={mode("#ffffff", "navy.800")}
       backgroundClip="border-box"
       {...rest}

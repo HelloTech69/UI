@@ -9,6 +9,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 
+import PrivateRoute from "~shared/PrivateRoute";
 import PublicRoute from "~shared/PublicRoute";
 import { useAuthStore } from "~shared/store";
 
@@ -38,8 +39,26 @@ const App: React.FC = () => {
       if (event.key === "auth-storage" && !event.newValue) {
         useAuthStore.setState({
           isAuthenticated: true,
-          user: null,
-          role: null,
+          user: {
+            username: "SONG JIHOON _",
+            email: "jihoon.song.2022@smu.edu.sg",
+            picture:
+              "https://lh3.googleusercontent.com/a/ACg8ocKQwvTl5W_9Tam4hUaao-fqPtVxO68o8xBMelJWreAc=s96-c",
+            id: "cd530825-0dc2-4b2d-8152-ce9904efdcfb",
+            createdAt: "2024-01-06T07:25:15.103Z",
+            updatedAt: "2024-01-06T07:25:15.103Z",
+          },
+          role: {
+            name: "User",
+            roles: [
+              "org.user",
+              "org.permissions.posts.list",
+              "org.permissions.posts.show",
+              "org.permissions.posts.create",
+              "org.permissions.one.read",
+              "org.permissions.three.read",
+            ],
+          },
         });
       }
     };
@@ -51,43 +70,47 @@ const App: React.FC = () => {
 
   return (
     <Flex direction="column" minH="100vh" bg={mode("gray.100", "gray.900")}>
-      {isAuthenticated ? (
-        <Sidebar
-          onClose={() => onClose}
-          display={{ base: "none", lg: "block" }}
-        />
-      ) : null}
-      <Drawer
-        isOpen={isOpen}
-        placement="left"
-        onClose={onClose}
-        returnFocusOnClose={false}
-        onOverlayClick={onClose}
-      >
-        <DrawerContent>
-          <Sidebar onClose={onClose} />
-        </DrawerContent>
-      </Drawer>
-      <Navbar onOpen={onOpen} />
-      <Box flex="1" ml={isAuthenticated ? { base: 0, lg: 60 } : 0} p="8">
-        <Suspense fallback={<Loader />}>
-          <Routes>
-            {/* This is public route, later can add check to redirect authenticated user back to dashboard */}
-            <Route element={<PublicRoute strict={true} />}>
-              <Route path="/" element={<LandingPage />} />
-              <Route path="/signin" element={<LoginPage />} />
-              <Route path="/signup" element={<RegisterPage />} />
-            </Route>
-            {/* This is private route, only authenticated user can access this route */}
-            {/* /dashboard/* means that all paths starting with /dashboard/ will be handled by DashboardPage. */}
-            <Route path="/dashboard/*" element={<DashboardPage />} />
-            <Route path="/posts/*" element={<PostsPage />} />
-            {/* This is 404 page, if no route match, this will be rendered */}
-            <Route path="*" element={<div>404</div>} />
-          </Routes>
-        </Suspense>
-      </Box>
-      <Footer />
+      <Suspense fallback={<Loader />}>
+        {isAuthenticated ? (
+          <Sidebar
+            onClose={() => onClose}
+            display={{ base: "none", lg: "block" }}
+          />
+        ) : null}
+        <Drawer
+          isOpen={isOpen}
+          placement="left"
+          onClose={onClose}
+          returnFocusOnClose={false}
+          onOverlayClick={onClose}
+        >
+          <DrawerContent>
+            <Sidebar onClose={onClose} />
+          </DrawerContent>
+        </Drawer>
+        <Navbar onOpen={onOpen} />
+        <Box flex="1" ml={isAuthenticated ? { base: 0, lg: 60 } : 0} p="8">
+          <Suspense fallback={<Loader />}>
+            <Routes>
+              {/* This is public route, later can add check to redirect authenticated user back to dashboard */}
+              <Route element={<PublicRoute strict={true} />}>
+                <Route path="/" element={<LandingPage />} />
+                <Route path="/signin" element={<LoginPage />} />
+                <Route path="/signup" element={<RegisterPage />} />
+              </Route>
+              {/* This is private route, only authenticated user can access this route */}
+              <Route element={<PrivateRoute resourceRequested="dashboard" />}>
+                <Route path="/dashboard" element={<DashboardPage />} />
+              </Route>
+              {/* /post/* means that all paths starting with /post/ will be handled by PostPage. */}
+              <Route path="/posts/*" element={<PostsPage />} />
+              {/* This is 404 page, if no route match, this will be rendered */}
+              <Route path="*" element={<div>404</div>} />
+            </Routes>
+          </Suspense>
+        </Box>
+        <Footer />
+      </Suspense>
     </Flex>
   );
 };

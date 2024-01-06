@@ -10,11 +10,14 @@ import {
   Portal,
 } from "@chakra-ui/react";
 
-import { useAuth } from "~features/auth";
+import { UserData } from "~types";
 
-export const AuthMenu = () => {
-  const { user, googleLogout } = useAuth();
+interface AuthMenuProps {
+  user?: UserData | null;
+  googleLogout: () => void;
+}
 
+export const AuthMenu = ({ user, googleLogout }: AuthMenuProps) => {
   return (
     <Menu>
       <MenuButton

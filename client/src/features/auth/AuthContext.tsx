@@ -1,4 +1,9 @@
-import React, { createContext, useContext, useEffect } from "react";
+import React, {
+  createContext,
+  startTransition,
+  useContext,
+  useEffect,
+} from "react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@chakra-ui/react";
 import { CodeResponse, useGoogleLogin } from "@react-oauth/google";
@@ -49,8 +54,10 @@ const useProvideAuth = (): AuthContextType => {
         // Handle the response using the provided function
         const data = await handleResponse(response);
         console.log(data);
-        login(data.user, data.role);
-        navigate("/dashboard");
+        startTransition(() => {
+          login(data.user, data.role);
+          navigate("/dashboard");
+        });
       } catch (error) {
         createErrorHandler(toast)(error as AxiosError<unknown>); // using the modified errorHandler to use toast
       }

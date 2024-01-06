@@ -30,12 +30,14 @@ import {
 
 import { usePageStore, usePostStore } from "~shared/store";
 
-import makeData from "~features/components/data/MakeData";
+import { StatusIcon } from "~features/components/icons";
 import { Pagination } from "~features/components/pagination";
 import { ColumnFilter, ColumnSorter } from "~features/components/table";
 import { IPost } from "~features/interfaces";
 
 import { usePostColumns } from "../index";
+
+import { makeData } from "~data";
 
 export const PostList: React.FC = () => {
   const { posts, setPosts } = usePostStore();
@@ -157,9 +159,19 @@ export const PostList: React.FC = () => {
                   {row.getVisibleCells().map((cell) => {
                     return (
                       <Td key={cell.id}>
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext(),
+                        {cell.column.id === "status" ? (
+                          <Flex alignItems="center">
+                            <StatusIcon value={cell.getValue() as string} />
+                            {flexRender(
+                              cell.column.columnDef.cell,
+                              cell.getContext(),
+                            )}
+                          </Flex>
+                        ) : (
+                          flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext(),
+                          )
                         )}
                       </Td>
                     );

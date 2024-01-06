@@ -21,12 +21,13 @@ import { ColumnDef } from "@tanstack/react-table";
 
 import { useCategoryStore, usePostStore } from "~shared/store";
 
-import { getAllCategories } from "~features/components/data";
 import {
   customCategoryFilter,
   customCreatedAtSorter,
 } from "~features/components/table";
 import { FilterElementProps, IPost } from "~features/interfaces";
+
+import { getAllCategories } from "~data";
 
 export const usePostColumns = (): ColumnDef<IPost>[] => {
   const toast = useToast();
