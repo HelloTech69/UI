@@ -1,5 +1,4 @@
 import { FiLogOut } from "react-icons/fi";
-import { useLocation } from "react-router-dom";
 import {
   Box,
   BoxProps,
@@ -23,7 +22,6 @@ interface SidebarProps extends BoxProps {
 
 const Sidebar = ({ onClose, ...rest }: SidebarProps) => {
   const { isAuthenticated, googleLogout } = useAuth();
-  const location = useLocation();
 
   return (
     <Box
@@ -51,12 +49,7 @@ const Sidebar = ({ onClose, ...rest }: SidebarProps) => {
           </Flex>
           <Stack as={"nav"} spacing={3}>
             {LinkItems.map((link) => (
-              <NavItem
-                key={link.name}
-                isActive={location.pathname.includes(link.href)}
-                icon={link.icon}
-                href={link.href}
-              >
+              <NavItem key={link.name} icon={link.icon} href={link.href}>
                 {link.name}
               </NavItem>
             ))}

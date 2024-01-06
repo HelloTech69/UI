@@ -1,11 +1,5 @@
 import { useState } from "react";
-import {
-  BellIcon,
-  CloseIcon,
-  HamburgerIcon,
-  MoonIcon,
-  SunIcon,
-} from "@chakra-ui/icons";
+import { CloseIcon, HamburgerIcon, MoonIcon, SunIcon } from "@chakra-ui/icons";
 import {
   Box,
   Button,
@@ -22,9 +16,7 @@ import { Logo } from "~shared/components/logo/Logo";
 
 import { useAuth } from "~features/auth";
 
-import { AuthMenu } from "./AuthMenu";
-import { Links } from "./Links";
-import { NavLink } from "./NavLink";
+import { AuthMenu, Links, NavLink, Notifications } from "./index";
 
 interface NavProps extends FlexProps {
   onOpen: () => void;
@@ -32,7 +24,7 @@ interface NavProps extends FlexProps {
 
 const Navbar = ({ onOpen, ...rest }: NavProps) => {
   const { colorMode, toggleColorMode } = useColorMode();
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, user, googleLogout } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const toggleOpen = () => setIsOpen(true);
   const toggleClose = () => setIsOpen(false);
@@ -62,7 +54,7 @@ const Navbar = ({ onOpen, ...rest }: NavProps) => {
       height="20"
       position="sticky"
       top={0}
-      zIndex={10}
+      zIndex={1}
       bg={mode("white", "gray.800")}
       borderBottomWidth="1px"
       borderBottomColor={mode("gray.200", "gray.700")}
@@ -113,17 +105,10 @@ const Navbar = ({ onOpen, ...rest }: NavProps) => {
             icon={colorMode === "light" ? <MoonIcon /> : <SunIcon />}
           />
           {isAuthenticated ? (
-            <IconButton
-              size="lg"
-              mr="3"
-              display={{ base: "none", sm: "flex" }}
-              variant="ghost"
-              aria-label="open menu"
-              icon={<BellIcon />}
-            />
-          ) : null}
-          {isAuthenticated ? (
-            <AuthMenu />
+            <>
+              <Notifications />
+              <AuthMenu user={user} googleLogout={googleLogout} />
+            </>
           ) : (
             <Stack
               flex={{ base: 1, md: 0 }}
