@@ -18,6 +18,7 @@ import { useAuth } from "~features/auth";
 // Private Component
 const DashboardPage = lazy(() => import("~features/pages/dashboard/Dashboard"));
 const PostsPage = lazy(() => import("~features/pages/posts/Posts"));
+const TaskListPage = lazy(() => import("~features/pages/task/TaskList"));
 
 // Public Component
 const LandingPage = lazy(() => import("~features/pages/landing/Landing"));
@@ -29,6 +30,7 @@ const Sidebar = lazy(() => import("~shared/components/sidebar/Sidebar"));
 const Navbar = lazy(() => import("~shared/components/navbar/Navbar"));
 const Footer = lazy(() => import("~shared/components/footer/Footer"));
 const Loader = lazy(() => import("~shared/components/loader/Loader"));
+const NotFound = lazy(() => import("~shared/components/notfound/NotFound"));
 
 const App: React.FC = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -98,14 +100,20 @@ const App: React.FC = () => {
                 <Route path="/signin" element={<LoginPage />} />
                 <Route path="/signup" element={<RegisterPage />} />
               </Route>
+
               {/* This is private route, only authenticated user can access this route */}
               <Route element={<PrivateRoute resourceRequested="dashboard" />}>
                 <Route path="/dashboard" element={<DashboardPage />} />
               </Route>
+              {/* <Route element={<PrivateRoute resourceRequested="tasklist" />}>
+                <Route path="/tasklist" element={<TaskListPage />} />
+              </Route> */}
+              <Route path="/tasklist" element={<TaskListPage />} />
               {/* /post/* means that all paths starting with /post/ will be handled by PostPage. */}
               <Route path="/posts/*" element={<PostsPage />} />
+
               {/* This is 404 page, if no route match, this will be rendered */}
-              <Route path="*" element={<div>404</div>} />
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>
         </Box>

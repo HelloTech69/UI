@@ -11,6 +11,7 @@
       "~types": ["./src/shared/types"],
       "~auth/*": ["./src/features/auth/*"],
       "~utils": ["./src/features/utils"],
+      "~hooks/*": ["./src/features/hooks/*"],
       "~data": ["./src/data"]
     }
   }

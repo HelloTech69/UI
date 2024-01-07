@@ -9,6 +9,7 @@ const applicationPermissions: PermissionsModel = {
   listpost: ["org.admin", "org.permissions.posts.list"],
   showpost: ["org.admin", "org.permissions.posts.show"],
   createpost: ["org.admin", "org.permissions.posts.create"],
+  tasklist: ["org.admin", "org.permissions.task.list"],
 
   /*
    * Use org.admin or org.user when specific permissions are not required
