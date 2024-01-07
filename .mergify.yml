@@ -10,6 +10,3 @@ pull_request_rules:
         type: APPROVE
       merge:
         method: squash
-        strict: true
-        strict_method: merge
-
