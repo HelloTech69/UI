@@ -1,3 +1,4 @@
+# Change the repository to public for mergify to work
 pull_request_rules:
   - name: Automatically merge Dependabot PRs
     conditions:
