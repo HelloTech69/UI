@@ -1,0 +1,15 @@
+pull_request_rules:
+  - name: Automatically merge Dependabot PRs
+    conditions:
+      - author~=^dependabot(\[bot\]|-preview\[bot\])$
+      - base=main  
+      - status-success="Lint and Fix / lint"
+      - "#approved-reviews-by>=1" 
+    actions:
+      review:
+        type: APPROVE
+      merge:
+        method: squash
+        strict: true
+        strict_method: merge
+
