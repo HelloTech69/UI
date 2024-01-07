@@ -10,9 +10,9 @@ on:
   # pull_request:
   #   branches: [main, dev, feature/*]
   push:
-    branches: [main]
+    branches: [main, codeql-analysis-patch-1]
   pull_request:
-      branches: [main]
+      branches: [main, codeql-analysis-patch-1]
   schedule:
     - cron: '0 13 * * 0'
 
