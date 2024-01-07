@@ -4,17 +4,28 @@ on:
 
   # The workflow triggers on pushes and pull requests to the main, dev, 
   # and any branch with a name starting with feature/.
-  
   # push:
   #   branches: [main, dev, feature/*]
   # pull_request:
   #   branches: [main, dev, feature/*]
+
+  # This is only here to prevent this workflow from running.
+  # codeql-analysis requires code scanning to be enabled
+  # Code scanning can only be enabled for organizations
   push:
-    branches: [main]
+    branches: ${{ github.ref }}
   pull_request:
-      branches: [main]
+    # The branches below must be a subset of the branches above
+    branches: ${{ github.ref }}
   schedule:
     - cron: '0 13 * * 0'
+  
+  # push:
+  #   branches: [main]
+  # pull_request:
+  #     branches: [main]
+  # schedule:
+  #   - cron: '0 13 * * 0'
 
 jobs:
   CodeQL-Build:
