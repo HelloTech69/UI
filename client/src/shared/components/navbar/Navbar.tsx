@@ -24,7 +24,7 @@ interface NavProps extends FlexProps {
 
 const Navbar = ({ onOpen, ...rest }: NavProps) => {
   const { colorMode, toggleColorMode } = useColorMode();
-  const { isAuthenticated, user, googleLogout } = useAuth();
+  const { isAuthenticated, user, role, googleLogout } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const toggleOpen = () => setIsOpen(true);
   const toggleClose = () => setIsOpen(false);
@@ -95,7 +95,11 @@ const Navbar = ({ onOpen, ...rest }: NavProps) => {
           </HStack>
         </Flex>
 
-        <Flex h="20" alignItems="center">
+        <HStack
+          h="20"
+          alignItems="center"
+          spacing={{ base: "0", sm: "2", lg: "6" }}
+        >
           <IconButton
             aria-label="toggleMode"
             size="lg"
@@ -107,15 +111,10 @@ const Navbar = ({ onOpen, ...rest }: NavProps) => {
           {isAuthenticated ? (
             <>
               <Notifications />
-              <AuthMenu user={user} googleLogout={googleLogout} />
+              <AuthMenu user={user} role={role} googleLogout={googleLogout} />
             </>
           ) : (
-            <Stack
-              flex={{ base: 1, md: 0 }}
-              justify={"flex-end"}
-              direction={"row"}
-              spacing={6}
-            >
+            <>
               <Button
                 as={"a"}
                 fontSize={"sm"}
@@ -139,9 +138,9 @@ const Navbar = ({ onOpen, ...rest }: NavProps) => {
               >
                 Sign Up
               </Button>
-            </Stack>
+            </>
           )}
-        </Flex>
+        </HStack>
       </Flex>
       {isOpen ? (
         <Box pb={4} display={{ lg: "none" }}>

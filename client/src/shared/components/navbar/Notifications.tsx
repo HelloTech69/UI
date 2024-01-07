@@ -65,7 +65,7 @@ export const Notifications = () => {
             borderRadius="8px"
             mb="10px"
           >
-            <ItemContent info="Horizon UI Dashboard PRO" aName="Alicia" />
+            <ItemContent info="Hello World" aName="Alicia" />
           </MenuItem>
           <MenuItem
             _hover={{ bg: "blue.400" }}
@@ -75,7 +75,7 @@ export const Notifications = () => {
             borderRadius="8px"
             mb="10px"
           >
-            <ItemContent info="Horizon Design System Free" aName="Josh Henry" />
+            <ItemContent info="Welcome Back" aName="Josh Henry" />
           </MenuItem>
         </Flex>
       </MenuList>
