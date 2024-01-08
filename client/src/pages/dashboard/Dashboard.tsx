@@ -4,12 +4,12 @@ import { Box, SimpleGrid } from "@chakra-ui/react";
 import Chn from "~assets/img/dashboards/chn.png";
 import Eur from "~assets/img/dashboards/eur.png";
 import Usa from "~assets/img/dashboards/usa.png";
-
-import { useAuth } from "~auth";
-import { MiniCalendar } from "~components/calendar/Calendar";
 import { useHead } from "~contexts/title/TitleContext";
+import { MiniCalendar } from "~components/calendar/Calendar";
 
 import { DailyTraffic, Header, TotalSpent, UserStats } from "./index";
+
+import { useAuth } from "~auth";
 
 export default function Dashboard() {
   const { user } = useAuth();

@@ -9,9 +9,8 @@ import {
   useColorModeValue as mode,
 } from "@chakra-ui/react";
 
-import { ColumnType } from "~utils";
-
 import { useHead } from "~contexts/title/TitleContext";
+import { ColumnType } from "~utils";
 
 import Column from "./components/Column";
 

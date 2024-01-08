@@ -21,10 +21,8 @@ import { ColumnDef } from "@tanstack/react-table";
 
 import { useCategoryStore, usePostStore } from "~shared/store";
 
-import {
-  customCategoryFilter,
-  customCreatedAtSorter,
-} from "~components/table";
+import { customCategoryFilter, customCreatedAtSorter } from "~components/table";
+
 import { FilterElementProps, IPost } from "~features/interfaces";
 
 import { getAllCategories } from "~data";

@@ -15,8 +15,7 @@
       "~assets/*": ["./src/assets/*"],
       "~contexts/*": ["./src/contexts/*"],
       "~components/*": ["./src/components/*"],
-      "~pages/*": ["./src/pages/*"],
-      
+      "~pages/*": ["./src/pages/*"]
     }
   }
 }

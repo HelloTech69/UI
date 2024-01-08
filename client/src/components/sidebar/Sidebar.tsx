@@ -11,9 +11,9 @@ import {
 
 import { Logo } from "~components/logo/Logo";
 
-import { useAuth } from "~auth";
-
 import { LinkItems, NavItem } from "./index";
+
+import { useAuth } from "~auth";
 
 interface SidebarProps extends BoxProps {
   onClose: () => void;

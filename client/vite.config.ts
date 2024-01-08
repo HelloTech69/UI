@@ -78,7 +78,7 @@ export default defineConfig({
       "~assets": path.resolve(__dirname, "src/assets"),
       "~contexts": path.resolve(__dirname, "src/contexts"),
       "~components": path.resolve(__dirname, "src/components"),
-      "~pages": path.resolve(__dirname, "src/pages"), 
+      "~pages": path.resolve(__dirname, "src/pages"),
     },
   },
 });

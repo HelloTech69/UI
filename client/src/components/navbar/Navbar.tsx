@@ -13,11 +13,11 @@ import {
 } from "@chakra-ui/react";
 
 import { Logo } from "~components/logo/Logo";
-
-import { useAuth } from "~auth";
+import { Notifications } from "~components/notification/Notifications";
 
 import { AuthMenu, Links, NavLink } from "./index";
-import { Notifications } from "~components/notification/Notifications";
+
+import { useAuth } from "~auth";
 
 interface NavProps extends FlexProps {
   onOpen: () => void;
