@@ -4,15 +4,19 @@
     "paths": {
       "~shared/*": ["./src/shared/*"],
       "~models/*": ["./src/shared/models/*"],
-      "~features/*": ["./src/features/*"],
-      "~assets/*": ["./src/assets/*"],
       "~locales/*": ["./src/shared/locales/*"],
-      "~api": ["./src/features/api/api"],
       "~types": ["./src/shared/types"],
-      "~auth/*": ["./src/features/auth/*"],
-      "~utils": ["./src/features/utils"],
+      "~features/*": ["./src/features/*"],
       "~hooks/*": ["./src/features/hooks/*"],
-      "~data": ["./src/data"]
+      "~utils": ["./src/features/utils"],
+      "~api": ["./src/api"],
+      "~auth": ["./src/contexts/auth-context"],
+      "~data": ["./src/data"],
+      "~assets/*": ["./src/assets/*"],
+      "~contexts/*": ["./src/contexts/*"],
+      "~components/*": ["./src/components/*"],
+      "~pages/*": ["./src/pages/*"],
+      
     }
   }
 }

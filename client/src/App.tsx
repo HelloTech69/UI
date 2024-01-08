@@ -9,28 +9,28 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 
-import PrivateRoute from "~shared/PrivateRoute";
-import PublicRoute from "~shared/PublicRoute";
+import PrivateRoute from "~shared/routes/PrivateRoute";
+import PublicRoute from "~shared/routes/PublicRoute";
 import { useAuthStore } from "~shared/store";
 
-import { useAuth } from "~features/auth";
+import { useAuth } from "~auth";
 
 // Private Component
-const DashboardPage = lazy(() => import("~features/pages/dashboard/Dashboard"));
-const PostsPage = lazy(() => import("~features/pages/posts/Posts"));
-const TaskListPage = lazy(() => import("~features/pages/task/TaskList"));
+const DashboardPage = lazy(() => import("~pages/dashboard/Dashboard"));
+const PostsPage = lazy(() => import("~pages/posts/Posts"));
+const TaskListPage = lazy(() => import("~pages/task/TaskList"));
 
 // Public Component
-const LandingPage = lazy(() => import("~features/pages/landing/Landing"));
-const LoginPage = lazy(() => import("~features/pages/login/Login"));
-const RegisterPage = lazy(() => import("~features/pages/register/Register"));
+const LandingPage = lazy(() => import("~pages/landing/Landing"));
+const LoginPage = lazy(() => import("~pages/auth/login/Login"));
+const RegisterPage = lazy(() => import("~pages/auth/register/Register"));
 
 // Shared Component
-const Sidebar = lazy(() => import("~shared/components/sidebar/Sidebar"));
-const Navbar = lazy(() => import("~shared/components/navbar/Navbar"));
-const Footer = lazy(() => import("~shared/components/footer/Footer"));
-const Loader = lazy(() => import("~shared/components/loader/Loader"));
-const NotFound = lazy(() => import("~shared/components/notfound/NotFound"));
+const Sidebar = lazy(() => import("~components/sidebar/Sidebar"));
+const Navbar = lazy(() => import("~components/navbar/Navbar"));
+const Footer = lazy(() => import("~components/footer/Footer"));
+const Loader = lazy(() => import("~components/loader/Loader"));
+const NotFound = lazy(() => import("~components/notfound/NotFound"));
 
 const App: React.FC = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -55,6 +55,7 @@ const App: React.FC = () => {
             roles: [
               "org.user",
               "org.permissions.posts.list",
+              "org.permissions.posts.edit",
               "org.permissions.posts.show",
               "org.permissions.posts.create",
               "org.permissions.one.read",

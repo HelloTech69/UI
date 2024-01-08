@@ -8,11 +8,11 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 
 import customTheme from "~shared/theme";
 
-import { HeadProvider } from "~features/title/TitleContext";
+import { HeadProvider } from "~contexts/title/TitleContext";
 
 import App from "./App";
 
-import { AuthProvider } from "~auth/index";
+import { AuthProvider } from "~auth";
 
 const rootElement = document.getElementById("root");
 if (rootElement) {
